@@ -1,0 +1,94 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header h1 {
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+.header p {
+  color: #94a3b8;
+}
+
+.addButton {
+  padding: 0.75rem 1.5rem;
+  background: #38bdf8;
+  color: #0f172a;
+  border-radius: 12px;
+  font-weight: 700;
+  font-size: 0.875rem;
+  text-decoration: none;
+}
+
+.tableWrapper {
+  background: rgba(30, 41, 59, 0.4);
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  overflow: hidden;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table th {
+  padding: 1.25rem 1.5rem;
+  background: rgba(15, 23, 42, 0.5);
+  text-align: left;
+  font-size: 0.75rem;
+  color: #94a3b8;
+  text-transform: uppercase;
+  font-weight: 700;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.table td {
+  padding: 1.25rem 1.5rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  font-size: 0.875rem;
+}
+
+.statusDot {
+  display: block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.active { background: #10b981; box-shadow: 0 0 8px rgba(16, 185, 129, 0.4); }
+.inactive { background: #94a3b8; }
+
+.roleBadge {
+  padding: 0.25rem 0.75rem;
+  border-radius: 8px;
+  font-size: 0.7rem;
+  font-weight: 700;
+}
+
+.manager { background: rgba(239, 68, 68, 0.1); color: #f87171; }
+.administrative { background: rgba(56, 189, 248, 0.1); color: #38bdf8; }
+.logistics { background: rgba(148, 163, 184, 0.1); color: #94a3b8; }
+
+.actionBtn {
+  padding: 0.4rem 0.8rem;
+  border-radius: 8px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  border: 1px solid transparent;
+}
+
+.deactivate { background: rgba(239, 68, 68, 0.1); color: #f87171; border-color: rgba(239, 68, 68, 0.2); }
+.activate { background: rgba(16, 185, 129, 0.1); color: #34d399; border-color: rgba(16, 185, 129, 0.2); }
+
+.actionBtn:disabled { opacity: 0.5; cursor: not-allowed; }

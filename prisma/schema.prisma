@@ -1,0 +1,83 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+enum Role {
+  LOGISTICS
+  ADMINISTRATIVE
+  MANAGER
+}
+
+enum EventStatus {
+  PLANNING
+  CONFIRMED
+  IN_PROGRESS
+  FINISHED
+}
+
+model User {
+  id        String     @id @default(uuid())
+  name      String
+  email     String     @unique
+  cpf       String     @unique
+  password  String
+  role      Role       @default(LOGISTICS)
+  image     String?
+  active    Boolean    @default(true)
+  createdAt DateTime   @default(now())
+  AuditLog  AuditLog[]
+}
+
+model Event {
+  id               String      @id @default(uuid())
+  eventName        String
+  clientName       String
+  clientContact    String?     // Novo campo
+  startDatetime    DateTime
+  endDatetime      DateTime
+  location         String
+  address          String?     // Novo campo
+  eventType        String
+  status           EventStatus @default(PLANNING)
+  materials        String
+  description      String
+  setupDatetime    DateTime
+  teardownDatetime DateTime
+  createdAt        DateTime    @default(now())
+  updatedAt        DateTime    @updatedAt
+  AuditLog         AuditLog[]
+}
+
+model AuditLog {
+  id            String   @id @default(uuid())
+  eventId       String
+  event         Event    @relation(fields: [eventId], references: [id])
+  userId        String
+  user          User     @relation(fields: [userId], references: [id])
+  field         String
+  previousValue String?
+  newValue      String?
+  timestamp     DateTime @default(now())
+}
+
+model CompanySettings {
+  id               String   @id @default("settings")
+  companyName      String   @default("Minha Empresa")
+  logo             String?  // Base64 logo
+  address          String?
+  phone            String?
+  email            String?
+  deliveryTemplate String?  @default("<h1>TERMO DE ENTREGA</h1><p>Cliente: {{clientName}}</p><p>Evento: {{eventName}}</p><h3>Materiais:</h3><p>{{materials}}</p>")
+  reportTemplate   String?  @default("<h1>RELATÓRIO DE EVENTOS</h1><p>Período: {{period}}</p><div>{{content}}</div>")
+  updatedAt        DateTime @updatedAt
+}
