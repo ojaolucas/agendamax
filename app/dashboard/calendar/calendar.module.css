@@ -115,6 +115,29 @@
   transform: scale(1.02);
 }
 
+@media (max-width: 1024px) {
+  .controls {
+    gap: 1rem;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  
+  .controls h2 {
+    min-width: unset;
+    font-size: 1.25rem;
+    order: -1;
+    width: 100%;
+  }
+
+  .calendarGrid {
+    min-width: 800px;
+  }
+
+  .container {
+    overflow-x: auto;
+  }
+}
+
 .planning { background: rgba(148, 163, 184, 0.1); color: #94a3b8; border-left: 3px solid #64748b; }
 .confirmed { background: rgba(16, 185, 129, 0.1); color: #34d399; border-left: 3px solid #16a34a; }
 .in_progress { background: rgba(56, 189, 248, 0.1); color: #38bdf8; border-left: 3px solid #0284c7; }

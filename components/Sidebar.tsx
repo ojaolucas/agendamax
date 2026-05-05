@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import styles from "./Sidebar.module.css";
@@ -11,11 +12,13 @@ import {
   IconUser, 
   IconUsers, 
   IconPlus,
-  IconLogOut 
+  IconLogOut,
+  IconX
 } from "./Icons";
 
 export default function Sidebar({ user }: { user: any }) {
   const pathname = usePathname();
+  const [isOpen, setIsOpen] = useState(false);
 
   const menuItems = [
     { name: "Dashboard", path: "/dashboard", icon: <IconDashboard /> },
@@ -27,45 +30,61 @@ export default function Sidebar({ user }: { user: any }) {
 
   if (user?.role === "MANAGER") {
     menuItems.push({ name: "Usuários", path: "/dashboard/users", icon: <IconUsers /> });
-    menuItems.push({ name: "Personalização", path: "/dashboard/settings", icon: <IconPlus /> }); // Using Plus as a placeholder icon or similar
+    menuItems.push({ name: "Personalização", path: "/dashboard/settings", icon: <IconPlus /> });
   }
 
+  const toggleSidebar = () => setIsOpen(!isOpen);
+
   return (
-    <aside className={styles.sidebar}>
-      <div className={styles.logo}>
-        <h1>agendaMAX</h1>
-      </div>
+    <>
+      {/* Mobile Toggle Button */}
+      <button className={styles.mobileToggle} onClick={toggleSidebar}>
+        {isOpen ? <IconX /> : <IconDashboard />}
+      </button>
 
-      <nav className={styles.nav}>
-        {menuItems.map((item) => (
-          <Link
-            key={item.path}
-            href={item.path}
-            className={`${styles.navItem} ${
-              pathname === item.path ? styles.active : ""
-            }`}
-          >
-            <span className={styles.icon}>{item.icon}</span>
-            <span className={styles.name}>{item.name}</span>
-          </Link>
-        ))}
-      </nav>
+      {/* Overlay */}
+      {isOpen && <div className={styles.overlay} onClick={toggleSidebar} />}
 
-      <div className={styles.userProfile}>
-        <div className={styles.userInfo}>
-          <p className={styles.userName}>{user?.name}</p>
-          <p className={styles.userRole}>{user?.role}</p>
+      <aside className={`${styles.sidebar} ${isOpen ? styles.open : ""}`}>
+        <div className={styles.logo}>
+          <h1>agendaMAX</h1>
+          <button className={styles.closeBtn} onClick={toggleSidebar}>
+            <IconX />
+          </button>
         </div>
-        <button 
-          className={styles.logoutBtn}
-          onClick={async () => {
-             await fetch('/api/auth/logout', { method: 'POST' });
-             window.location.href = '/';
-          }}
-        >
-          <IconLogOut size={16} /> Sair
-        </button>
-      </div>
-    </aside>
+
+        <nav className={styles.nav}>
+          {menuItems.map((item) => (
+            <Link
+              key={item.path}
+              href={item.path}
+              onClick={() => setIsOpen(false)}
+              className={`${styles.navItem} ${
+                pathname === item.path ? styles.active : ""
+              }`}
+            >
+              <span className={styles.icon}>{item.icon}</span>
+              <span className={styles.name}>{item.name}</span>
+            </Link>
+          ))}
+        </nav>
+
+        <div className={styles.userProfile}>
+          <div className={styles.userInfo}>
+            <p className={styles.userName}>{user?.name}</p>
+            <p className={styles.userRole}>{user?.role}</p>
+          </div>
+          <button 
+            className={styles.logoutBtn}
+            onClick={async () => {
+               await fetch('/api/auth/logout', { method: 'POST' });
+               window.location.href = '/';
+            }}
+          >
+            <IconLogOut size={16} /> Sair
+          </button>
+        </div>
+      </aside>
+    </>
   );
 }
