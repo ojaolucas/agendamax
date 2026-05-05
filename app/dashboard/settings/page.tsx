@@ -137,7 +137,8 @@ export default function SettingsPage() {
                 onChange={(e) => setSettings({ ...settings, deliveryTemplate: e.target.value })}
               />
               <div className={styles.placeholders}>
-                Variáveis: <code>{"{{companyName}}"}</code> <code>{"{{clientName}}"}</code> <code>{"{{eventDate}}"}</code> <code>{"{{location}}"}</code> <code>{"{{address}}"}</code> <code>{"{{clientContact}}"}</code> <code>{"{{materialsTable}}"}</code> <code>{"{{date}}"}</code>
+                Variáveis (use <code>{"{{ }}"}</code> ou <code>{"<< >>"}</code>): <br/>
+                <code>{"<<nome>>"}</code> <code>{"<<endereco>>"}</code> <code>{"<<contato>>"}</code> <code>{"<<data_evento>>"}</code> <code>{"<<materiais>>"}</code> <code>{"<<empresa>>"}</code> <code>{"<<data_hoje>>"}</code>
               </div>
             </div>
           </section>
@@ -152,7 +153,7 @@ export default function SettingsPage() {
                 onChange={(e) => setSettings({ ...settings, reportTemplate: e.target.value })}
               />
               <div className={styles.placeholders}>
-                Variáveis disponíveis: <code>{"{{period}}"}</code> <code>{"{{content}}"}</code> <code>{"{{companyName}}"}</code>
+                Variáveis: <code>{"<<periodo>>"}</code> <code>{"<<conteudo>>"}</code> <code>{"<<empresa>>"}</code>
               </div>
             </div>
           </section>
