@@ -137,7 +137,7 @@ export default function SettingsPage() {
                 onChange={(e) => setSettings({ ...settings, deliveryTemplate: e.target.value })}
               />
               <div className={styles.placeholders}>
-                Variáveis disponíveis: <code>{"{{companyName}}"}</code> <code>{"{{clientName}}"}</code> <code>{"{{eventName}}"}</code> <code>{"{{materials}}"}</code> <code>{"{{date}}"}</code> <code>{"{{address}}"}</code>
+                Variáveis: <code>{"{{companyName}}"}</code> <code>{"{{clientName}}"}</code> <code>{"{{eventDate}}"}</code> <code>{"{{location}}"}</code> <code>{"{{address}}"}</code> <code>{"{{clientContact}}"}</code> <code>{"{{materialsTable}}"}</code> <code>{"{{date}}"}</code>
               </div>
             </div>
           </section>
