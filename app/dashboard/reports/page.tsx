@@ -3,7 +3,6 @@ import styles from "./reports.module.css";
 import { format, startOfDay, endOfDay } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import PrintReportButton from "./PrintReportButton";
-import { processTemplate } from "@/lib/templates";
 
 export default async function ReportsPage({
   searchParams,
@@ -23,35 +22,6 @@ export default async function ReportsPage({
     },
     orderBy: { startDatetime: "asc" },
   });
-
-  const settings = await prisma.companySettings.findUnique({
-    where: { id: "settings" },
-  });
-
-  // Generate the content string for the template
-  const eventsHtml = events.map(event => `
-    <div style="margin-bottom: 20px; border-bottom: 1px solid #eee; padding-bottom: 10px;">
-      <h3 style="margin: 0;">${event.eventName}</h3>
-      <p style="margin: 5px 0;"><strong>Data:</strong> ${format(new Date(event.startDatetime), "dd/MM HH:mm")}</p>
-      <p style="margin: 5px 0;"><strong>Cliente:</strong> ${event.clientName}</p>
-      <p style="margin: 5px 0;"><strong>Local:</strong> ${event.location}</p>
-      <div style="background: #f9f9f9; padding: 10px; border-radius: 4px; margin-top: 10px;">
-        <strong>Materiais:</strong>
-        <p style="white-space: pre-wrap; margin: 5px 0;">${event.materials}</p>
-      </div>
-    </div>
-  `).join("");
-
-  const templateData = {
-    period: `${format(startDate, "dd/MM/yyyy")} a ${format(endDate, "dd/MM/yyyy")}`,
-    content: eventsHtml,
-    companyName: settings?.companyName || "agendaMAX",
-  };
-
-  const htmlContent = processTemplate(
-    settings?.reportTemplate || "<h1>RELATÓRIO DE EVENTOS</h1><p>Período: {{period}}</p><div>{{content}}</div>",
-    templateData
-  );
 
   return (
     <div className={styles.container}>
@@ -76,19 +46,33 @@ export default async function ReportsPage({
       </div>
 
       <div className={styles.reportContent}>
-        <header className={styles.docHeader}>
-          {settings?.logo && <img src={settings.logo} alt="Logo" className={styles.logo} />}
-          <div className={styles.companyInfo}>
-            <h2>{settings?.companyName}</h2>
-            <p>{settings?.address}</p>
-            <p>{settings?.phone} | {settings?.email}</p>
-          </div>
-        </header>
+        <div className={styles.reportHeader}>
+          <h2>Relatório de Eventos</h2>
+          <p>Período: {format(startDate, "dd/MM/yyyy")} a {format(endDate, "dd/MM/yyyy")}</p>
+        </div>
 
-        <div 
-          className={styles.dynamicContent}
-          dangerouslySetInnerHTML={{ __html: htmlContent }}
-        />
+        {events.length === 0 ? (
+          <p className={styles.empty}>Nenhum evento encontrado para este período.</p>
+        ) : (
+          <div className={styles.eventList}>
+            {events.map((event) => (
+              <div key={event.id} className={styles.reportItem}>
+                <div className={styles.itemHeader}>
+                  <h3>{event.eventName}</h3>
+                  <span>{format(new Date(event.startDatetime), "dd/MM HH:mm")}</span>
+                </div>
+                <div className={styles.itemDetails}>
+                  <p><strong>Cliente:</strong> {event.clientName}</p>
+                  <p><strong>Local:</strong> {event.location}</p>
+                  <div className={styles.materialsSection}>
+                    <strong>Materiais:</strong>
+                    <p>{event.materials}</p>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );
