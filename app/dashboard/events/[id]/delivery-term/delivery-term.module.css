@@ -95,7 +95,39 @@
   color: #64748b;
 }
 
+.noPrint {
+  display: flex;
+  justify-content: center;
+  margin-top: 1.5rem;
+}
+
+.printBtn {
+  padding: 0.875rem 2.5rem;
+  background: linear-gradient(135deg, #38bdf8, #818cf8);
+  color: #0f172a;
+  border: none;
+  border-radius: 14px;
+  font-size: 1rem;
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: 0 8px 24px rgba(56, 189, 248, 0.35);
+  transition: all 0.2s ease;
+  letter-spacing: 0.02em;
+}
+
+.printBtn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 32px rgba(56, 189, 248, 0.5);
+}
+
+.printBtn:active {
+  transform: translateY(0);
+}
+
 @media print {
+  .noPrint {
+    display: none;
+  }
   .page {
     padding: 0;
     background: white;

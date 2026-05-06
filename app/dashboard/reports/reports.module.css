@@ -137,8 +137,27 @@
   font-style: italic;
 }
 
+.printBtn {
+  padding: 0.6rem 1.5rem;
+  background: linear-gradient(135deg, #38bdf8, #818cf8);
+  color: #0f172a;
+  border: none;
+  border-radius: 10px;
+  font-size: 0.875rem;
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(56, 189, 248, 0.3);
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.printBtn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(56, 189, 248, 0.45);
+}
+
 @media print {
-  .header, .filterBar {
+  .header, .filterBar, .printBtn {
     display: none;
   }
   .reportContent {
