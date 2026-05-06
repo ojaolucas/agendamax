@@ -73,16 +73,7 @@ export default async function DeliveryTermPage({
           </p>
         </footer>
       </div>
-      <div style={{ display: "flex", gap: "1rem" }}>
-        <PrintButton />
-        <a 
-          href={`/api/events/${event.id}/docx`} 
-          className={styles.downloadDocxBtn}
-          download
-        >
-          Baixar Word (.docx)
-        </a>
-      </div>
+      <PrintButton />
     </div>
   );
 }

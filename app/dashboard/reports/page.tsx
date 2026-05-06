@@ -1,7 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import styles from "./reports.module.css";
 import { format, startOfDay, endOfDay } from "date-fns";
-import { ptBR } from "date-fns/locale";
 import PrintReportButton from "./PrintReportButton";
 
 export default async function ReportsPage({
@@ -41,16 +40,7 @@ export default async function ReportsPage({
             <input type="date" name="end" defaultValue={params.end || format(new Date(), "yyyy-MM-dd")} />
           </div>
           <button type="submit" className={styles.generateBtn}>Gerar Relatório</button>
-          <div style={{ display: "flex", gap: "0.5rem" }}>
-            <PrintReportButton />
-            <a 
-              href={`/api/reports/docx?start=${params.start || format(new Date(), "yyyy-MM-dd")}&end=${params.end || format(new Date(), "yyyy-MM-dd")}`}
-              className={styles.downloadDocxBtn}
-              download
-            >
-              Baixar Word
-            </a>
-          </div>
+          <PrintReportButton />
         </form>
       </div>
 
