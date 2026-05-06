@@ -3,11 +3,13 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import styles from "./new-event.module.css";
+import MaterialsTable, { serializeMaterials, MaterialRow } from "@/components/MaterialsTable";
 
 export default function NewEventPage() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [materialsValue, setMaterialsValue] = useState("");
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -15,7 +17,9 @@ export default function NewEventPage() {
     setError("");
 
     const formData = new FormData(e.currentTarget);
-    const data = Object.fromEntries(formData.entries());
+    const data: any = Object.fromEntries(formData.entries());
+    // Inject the materials table value
+    data.materials = materialsValue || "Nenhum material cadastrado";
 
     try {
       const res = await fetch("/api/events", {
@@ -104,8 +108,8 @@ export default function NewEventPage() {
         </div>
 
         <div className={styles.field}>
-          <label>Materiais (Descrição detalhada da estrutura)</label>
-          <textarea name="materials" rows={5} placeholder="Liste os equipamentos e estruturas necessárias..." required></textarea>
+          <label>Equipamentos e Materiais</label>
+          <MaterialsTable onChange={setMaterialsValue} />
         </div>
 
         <div className={styles.field}>

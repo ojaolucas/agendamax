@@ -2,12 +2,14 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import styles from "../../new/new-event.module.css"; // Reuse styles
+import styles from "../../new/new-event.module.css";
+import MaterialsTable from "@/components/MaterialsTable";
 
 export default function EditEventForm({ event }: { event: any }) {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [materialsValue, setMaterialsValue] = useState(event.materials || "");
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -15,7 +17,8 @@ export default function EditEventForm({ event }: { event: any }) {
     setError("");
 
     const formData = new FormData(e.currentTarget);
-    const data = Object.fromEntries(formData.entries());
+    const data: any = Object.fromEntries(formData.entries());
+    data.materials = materialsValue || "Nenhum material cadastrado";
 
     try {
       const res = await fetch(`/api/events/${event.id}`, {
@@ -117,8 +120,8 @@ export default function EditEventForm({ event }: { event: any }) {
         </div>
 
         <div className={styles.field}>
-          <label>Materiais (Descrição detalhada da estrutura)</label>
-          <textarea name="materials" rows={5} defaultValue={event.materials} required></textarea>
+          <label>Equipamentos e Materiais</label>
+          <MaterialsTable initialValue={event.materials} onChange={setMaterialsValue} />
         </div>
 
         <div className={styles.field}>
