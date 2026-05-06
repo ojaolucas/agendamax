@@ -33,10 +33,9 @@ export async function GET(
       materiais: event.materials.split("\n").map(m => ({ nome: m })) // For loops in docx
     };
 
-    const docxBlob = processDocxTemplate(settings.deliveryDocx, data);
-    const arrayBuffer = await (docxBlob as any).arrayBuffer();
+    const buffer = processDocxTemplate(settings.deliveryDocx, data);
     
-    return new NextResponse(arrayBuffer, {
+    return new NextResponse(buffer, {
       headers: {
         "Content-Type": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
         "Content-Disposition": `attachment; filename="Termo_${event.eventName.replace(/\s+/g, '_')}.docx"`,

@@ -38,10 +38,9 @@ export async function GET(req: Request) {
       }))
     };
 
-    const docxBlob = processDocxTemplate(settings.reportDocx, data);
-    const arrayBuffer = await (docxBlob as any).arrayBuffer();
+    const buffer = processDocxTemplate(settings.reportDocx, data);
     
-    return new NextResponse(arrayBuffer, {
+    return new NextResponse(buffer, {
       headers: {
         "Content-Type": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
         "Content-Disposition": `attachment; filename="Relatorio_${start}_${end}.docx"`,
