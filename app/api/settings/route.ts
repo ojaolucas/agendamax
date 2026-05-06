@@ -38,6 +38,8 @@ export async function PUT(req: Request) {
         email: data.email,
         deliveryTemplate: data.deliveryTemplate,
         reportTemplate: data.reportTemplate,
+        deliveryDocx: data.deliveryDocx,
+        reportDocx: data.reportDocx,
       },
     });
 

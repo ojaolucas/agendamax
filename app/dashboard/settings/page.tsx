@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import styles from "./settings.module.css";
-import { IconEvents, IconReports, IconUser } from "@/components/Icons";
+import { IconEvents, IconReports, IconUser, IconPlus } from "@/components/Icons";
 
 export default function SettingsPage() {
   const [settings, setSettings] = useState<any>(null);
@@ -18,6 +18,18 @@ export default function SettingsPage() {
         setLoading(false);
       });
   }, []);
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>, field: string) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        const base64String = (reader.result as string).split(",")[1];
+        setSettings({ ...settings, [field]: base64String });
+      };
+      reader.readAsDataURL(file);
+    }
+  };
 
   const handleLogoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -61,7 +73,7 @@ export default function SettingsPage() {
     <div className={styles.container}>
       <header className={styles.header}>
         <h1>Personalização</h1>
-        <p>Configure a identidade visual e os modelos de documentos da empresa</p>
+        <p>Configure a identidade visual e os modelos de documentos (HTML ou Word)</p>
       </header>
 
       {message.text && (
@@ -128,32 +140,59 @@ export default function SettingsPage() {
 
         <div className={styles.rightColumn}>
           <section className={styles.card}>
-            <h2><IconEvents size={20} /> Modelo: Termo de Entrega</h2>
+            <h2><IconEvents size={20} /> Termo de Entrega</h2>
+            
+            <div className={styles.field} style={{ marginBottom: "1.5rem" }}>
+              <label>Modelo em Word (.docx)</label>
+              <div className={styles.fileUploadBox}>
+                 <span className={styles.fileStatus}>
+                   {settings.deliveryDocx ? "✅ Modelo Word Carregado" : "⚠️ Nenhum modelo Word"}
+                 </span>
+                 <label className={styles.miniUploadBtn}>
+                   Alterar .docx
+                   <input type="file" accept=".docx" onChange={(e) => handleFileChange(e, "deliveryDocx")} hidden />
+                 </label>
+              </div>
+            </div>
+
             <div className={styles.field}>
-              <label>Estrutura HTML do Documento</label>
+              <label>Estrutura HTML (Backup)</label>
               <textarea 
-                rows={10}
+                rows={5}
                 value={settings.deliveryTemplate || ""}
                 onChange={(e) => setSettings({ ...settings, deliveryTemplate: e.target.value })}
               />
               <div className={styles.placeholders}>
-                Variáveis (use <code>{"{{ }}"}</code> ou <code>{"<< >>"}</code>): <br/>
-                <code>{"<<nome>>"}</code> <code>{"<<endereco>>"}</code> <code>{"<<contato>>"}</code> <code>{"<<data_evento>>"}</code> <code>{"<<materiais>>"}</code> <code>{"<<empresa>>"}</code> <code>{"<<data_hoje>>"}</code>
+                Tags: <code>{"<<nome>>"}</code> <code>{"<<endereco>>"}</code> <code>{"<<contato>>"}</code> <code>{"<<data_evento>>"}</code> <code>{"<<materiais>>"}</code>
               </div>
             </div>
           </section>
 
           <section className={styles.card} style={{ marginTop: "2rem" }}>
-            <h2><IconReports size={20} /> Modelo: Relatórios</h2>
+            <h2><IconReports size={20} /> Relatórios</h2>
+            
+            <div className={styles.field} style={{ marginBottom: "1.5rem" }}>
+              <label>Modelo em Word (.docx)</label>
+              <div className={styles.fileUploadBox}>
+                 <span className={styles.fileStatus}>
+                   {settings.reportDocx ? "✅ Modelo Word Carregado" : "⚠️ Nenhum modelo Word"}
+                 </span>
+                 <label className={styles.miniUploadBtn}>
+                   Alterar .docx
+                   <input type="file" accept=".docx" onChange={(e) => handleFileChange(e, "reportDocx")} hidden />
+                 </label>
+              </div>
+            </div>
+
             <div className={styles.field}>
-              <label>Estrutura HTML do Documento</label>
+              <label>Estrutura HTML (Backup)</label>
               <textarea 
-                rows={10}
+                rows={5}
                 value={settings.reportTemplate || ""}
                 onChange={(e) => setSettings({ ...settings, reportTemplate: e.target.value })}
               />
               <div className={styles.placeholders}>
-                Variáveis: <code>{"<<periodo>>"}</code> <code>{"<<conteudo>>"}</code> <code>{"<<empresa>>"}</code>
+                Tags: <code>{"<<periodo>>"}</code> <code>{"<<conteudo>>"}</code>
               </div>
             </div>
           </section>

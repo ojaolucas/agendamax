@@ -136,8 +136,27 @@
   font-style: italic;
 }
 
+.downloadDocxBtn {
+  padding: 0.6rem 1rem;
+  background: rgba(56, 189, 248, 0.1);
+  color: #38bdf8;
+  border: 1px solid rgba(56, 189, 248, 0.2);
+  border-radius: 8px;
+  font-size: 0.875rem;
+  font-weight: 700;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  transition: all 0.2s;
+}
+
+.downloadDocxBtn:hover {
+  background: rgba(56, 189, 248, 0.2);
+  transform: translateY(-2px);
+}
+
 @media print {
-  .header, .filterBar {
+  .header, .filterBar, .downloadDocxBtn {
     display: none;
   }
   .reportContent {

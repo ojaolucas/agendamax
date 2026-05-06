@@ -30,6 +30,7 @@ export default function Sidebar({ user }: { user: any }) {
 
   if (user?.role === "MANAGER") {
     menuItems.push({ name: "Usuários", path: "/dashboard/users", icon: <IconUsers /> });
+    menuItems.push({ name: "Personalização", path: "/dashboard/settings", icon: <IconPlus /> });
   }
 
   const toggleSidebar = () => setIsOpen(!isOpen);

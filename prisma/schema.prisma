@@ -79,5 +79,7 @@ model CompanySettings {
   email            String?
   deliveryTemplate String?  @default("<h1>TERMO DE ENTREGA</h1><p>Cliente: {{clientName}}</p><p>Evento: {{eventName}}</p><h3>Materiais:</h3><p>{{materials}}</p>")
   reportTemplate   String?  @default("<h1>RELATÓRIO DE EVENTOS</h1><p>Período: {{period}}</p><div>{{content}}</div>")
+  deliveryDocx     String?  // Base64 .docx template
+  reportDocx       String?  // Base64 .docx template
   updatedAt        DateTime @updatedAt
 }

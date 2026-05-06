@@ -12,8 +12,10 @@
     "@prisma/client": "6.19.3",
     "bcrypt": "^6.0.0",
     "date-fns": "^4.1.0",
+    "docxtemplater": "^3.68.6",
     "jose": "^6.2.3",
     "next": "16.2.4",
+    "pizzip": "^3.2.0",
     "react": "19.2.4",
     "react-dom": "19.2.4"
   },
